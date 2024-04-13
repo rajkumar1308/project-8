@@ -1,0 +1,188 @@
+{% load static %} {% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form </title>
+  <script  type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+ 
+  <div class="wrapper">
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h1>Login</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Username" name="username" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" name="password" required>
+        <i class='bx bxs-lock-alt' ></i>
+      </div>
+      <div>
+        <video id="webCam" autoplay playsinlne width="350" height="250"></video>
+        <canvas id="canvas" width="30" height="15"></canvas>
+       <a download onClick="takePicture()">capture</a>
+
+       <!-- capture photo karna hai  -->
+       <input type="file" id="image" name="image" accept="image/*" />
+
+       <br/>
+      </div>
+      <div class="remember-forgot">
+        <label><input type="checkbox">Remember Me</label>
+        <a href="#">Forgot Password</a>
+      </div>
+      <button type="submit" class="btn">Login</button>
+      <div class="register-link">
+        <p>Dont have an account? <a href="/">Register</a></p>
+      </div>
+    </form>
+  </div>
+  <div class="error-message">  {% if error %}
+    <p>Incorrect username or password. Please recheck your credentials and try again.</p>
+  {% endif %}
+</div>
+  <style>
+    body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+}
+
+form {
+  width: 350px;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-box {
+  margin-bottom: 15px;
+  position: relative;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.input-box i {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #ccc;
+  transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+input[type="text"]:focus + i,
+input[type="password"]:focus + i {
+  color: #333;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+.remember-forgot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.remember-forgot label {
+  font-size: 14px;
+  color: #333;
+}
+
+.remember-forgot a {
+  color: #3498db;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.remember-forgot a:hover {
+  color: #2980b9;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.register-link p {
+  font-size: 14px;
+  color: #333;
+}
+
+.register-link a {
+  color: #3498db;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.register-link a:hover {
+  color: #2980b9;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+}
+  </style>
+  <script>
+        const webcamElement = document.getElementById("webCam");
+        const canvasElement = document.getElementById("canvas")
+         const webcam = new Webcam(webcamElement,"user",canvasElement);
+         webcam.start();
+         function takePicture(){
+             let picture = webcam.snap();
+             document.querySelector("a").href= picture;
+         }
+   
+  </script>
+</body>
+</html>
+
+{% endblock %}
